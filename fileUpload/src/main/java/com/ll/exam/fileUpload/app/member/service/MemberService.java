@@ -46,4 +46,8 @@ public class MemberService {
 
         return member;
     }
+
+    public Member getMemberById(Long loginedMemberId) {
+        return memberRepository.findById(loginedMemberId).orElse(null);
+    }
 }
