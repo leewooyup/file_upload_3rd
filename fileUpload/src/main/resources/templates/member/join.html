@@ -1,9 +1,17 @@
 <html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://thymeleaf.org"
+      layout:decorate="~{layout/layout.html}"
 >
-<h1>회원가입</h1>
+<head>
+    <title>회원가입</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h1>회원가입</h1>
 
-<script>
+        <script>
     function JoinForm__submit(form) {
         form.username.value = form.username.value.trim();
 
@@ -31,26 +39,32 @@
 
         form.submit();
     }
-</script>
 
-<form th:action method="POST" enctype="multipart/form-data" onsubmit="JoinForm__submit(this); return false;">
-    <div>
-        <span>아이디</span>
-        <input type="text" name="username">
+
+        </script>
+
+        <form th:action method="POST" enctype="multipart/form-data" onsubmit="JoinForm__submit(this); return false;">
+            <div>
+                <span>아이디</span>
+                <input type="text" name="username">
+            </div>
+            <div>
+                <span>비밀번호</span>
+                <input type="password" name="password">
+            </div>
+            <div>
+                <span>이메일</span>
+                <input type="email" name="email">
+            </div>
+            <div>
+                <span>프로필 이미지</span>
+                <input type="file" name="profileImg" accept="image/png, image/jpeg, image/gif">
+            </div>
+            <div>
+                <input type="submit" value="가입">
+            </div>
+        </form>
     </div>
-    <div>
-        <span>비밀번호</span>
-        <input type="password" name="password">
-    </div>
-    <div>
-        <span>이메일</span>
-        <input type="email" name="email">
-    </div>
-    <div>
-        <span>프로필 이미지</span>
-        <input type="file" name="profileImg" accept="image/png, image/jpeg, image/gif">
-    </div>
-    <div>
-        <input type="submit" value="가입">
-    </div>
-</form>
+</section>
+</body>
+</html>
