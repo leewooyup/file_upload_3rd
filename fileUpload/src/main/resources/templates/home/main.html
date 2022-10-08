@@ -1,4 +1,11 @@
+<html lang="ko"
+      xmlns:th="http://thymeleaf.org"
+>
+
+<header th:if="${loginedMember != null}">
+    user3 / <img th:src="@{${loginedMemberProfileImgUrl}}" alt="">
+</header>
+
+<hr>
+
 <div>안녕</div>
-<div>
-    [[${param.errorMsg}]]
-</div>
