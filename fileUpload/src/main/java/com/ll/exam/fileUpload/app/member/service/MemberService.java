@@ -34,7 +34,7 @@ public class MemberService implements UserDetailsService {
     }
 
     public Member join(String username, String password, String email, MultipartFile profileImg) {
-        String profileImgDirName = "member/" + Util.date.getCurrentDateFormatted("yyyy_MM_dd");
+        String profileImgDirName = getCurrentProfileImgDirName();
 
         String ext = Util.file.getExt(profileImg.getOriginalFilename());
         String fileName = UUID.randomUUID().toString() + "." + ext;
@@ -96,5 +96,15 @@ public class MemberService implements UserDetailsService {
         member.setProfileImg(null);
 
         memberRepository.save(member);
+    }
+
+    public void setProfileImgByUrl(Member member, String url) {
+        String filePath = Util.file.downloading(url, genFileDirPath + "/" + getCurrentProfileImgDirName() + "/" + UUID.randomUUID());
+        member.setProfileImg(getCurrentProfileImgDirName() + "/" + new File(filePath).getName());
+        memberRepository.save(member);
+    }
+
+    private String getCurrentProfileImgDirName() {
+        return "member/" + Util.date.getCurrentDateFormatted("yyyy_MM_dd");
     }
 }
