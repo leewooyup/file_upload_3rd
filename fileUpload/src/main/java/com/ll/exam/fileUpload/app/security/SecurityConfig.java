@@ -1,4 +1,4 @@
-package com.ll.exam.fileUpload.app.base;
+package com.ll.exam.fileUpload.app.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
