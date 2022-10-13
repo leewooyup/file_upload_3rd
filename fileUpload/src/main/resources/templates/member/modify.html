@@ -1,0 +1,67 @@
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org"
+      layout:decorate="~{layout/layout.html}"
+>
+<head>
+    <title>회원정보수정</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h1>회원가입</h1>
+        <style>
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        </style>
+
+        <script>
+    function ModifyForm__submit(form) {
+        form.email.value = form.email.value.trim();
+
+        if(form.email.value.length == 0) {
+            alert('이메일을 입력해주세요.');
+            form.email.focus();
+            return;
+        }
+
+        form.submit();
+    }
+
+
+        </script>
+
+        <form th:action method="POST" enctype="multipart/form-data" onsubmit="ModifyForm__submit(this); return false;">
+            <div>
+                <span>아이디</span>
+                <span th:text="${#authentication.principal.username}"></span>
+            </div>
+            <div>
+                <span>이메일</span>
+                <span th:text="${#authentication.principal.email}"></span>
+            </div>
+            <div>
+                <span>기존 프로필 이미지</span>
+                <img class="profile-img" th:src="@{|/member/profile/img/${#authentication.principal.id}|}">
+                <label>
+                    삭제
+                    <input type="checkbox" name="profileImg__delete" value="Y">
+                </label>
+            </div>
+            <div>
+                <span>프로필 이미지</span>
+                <input type="file" name="profileImg" accept="image/png, image/jpeg, image/gif">
+            </div>
+            <div>
+                <input type="submit" value="수정">
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
