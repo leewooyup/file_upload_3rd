@@ -36,3 +36,8 @@ spring:
       ddl-auto: create
 custom:
   genFileDirPath: c:/temp/fileUpload
+
+logging:
+  level:
+    root: info
+    com.ll.exam.fileUpload: debug
