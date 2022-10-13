@@ -39,4 +39,6 @@ public class Member extends BaseEntity {
         if(profileImg == null) return null;
         return "/gen/" + profileImg;
     }
+
+
 }

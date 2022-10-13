@@ -89,10 +89,15 @@ public class MemberController {
 
     @GetMapping("/profile/img/{id}")
     public ResponseEntity<Object> showProfileImg(@PathVariable Long id) throws URISyntaxException {
-        URI redirecUri = new URI(memberService.getMemberById(id).getProfileImgUrl());
+        String profileImgUrl = memberService.getMemberById(id).getProfileImgUrl();
+        if(profileImgUrl == null) {
+            profileImgUrl = "https://via.placeholder.com/100x100.png?text=U_U";
+        }
+        URI redirecUri = new URI(profileImgUrl);
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirecUri);
-        httpHeaders.setCacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS));
+        httpHeaders.setCacheControl(CacheControl.maxAge(60 * 60 * 1, TimeUnit.SECONDS));
         return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
     }
 }
