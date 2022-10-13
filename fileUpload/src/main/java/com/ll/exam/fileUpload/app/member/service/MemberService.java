@@ -48,6 +48,9 @@ public class MemberService {
     }
 
     private String saveProfileImg(MultipartFile profileImg) {
+        if(profileImg == null || profileImg.isEmpty()) {
+            return null;
+        }
         String profileImgDirName = getCurrentProfileImgDirName();
 
         String ext = Util.file.getExt(profileImg.getOriginalFilename());
