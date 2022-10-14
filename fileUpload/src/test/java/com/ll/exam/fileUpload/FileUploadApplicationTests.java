@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -72,11 +73,11 @@ class FileUploadApplicationTests {
 	@Test
 	@DisplayName("user1으로 로그인 후 프로필 페이지에 접속하면 user1의 이메일이 보여야한다")
 	@Rollback(false)
+	@WithUserDetails("user1")
 	void t3() throws Exception {
 		ResultActions resultActions = mvc
 				.perform(
 						get("/member/profile")
-						.with(user("user1").password("1234").roles("user"))
 				)
 				.andDo(print());
 
@@ -86,25 +87,7 @@ class FileUploadApplicationTests {
 				.andExpect(handler().methodName("showProfile"))
 				.andExpect(content().string(containsString("user1@test.com")));
 	}
-
-	@Test
-	@DisplayName("user4으로 로그인 후 프로필 페이지에 접속하면 user4의 이메일이 보여야한다")
-	@Rollback(false)
-	void t4() throws Exception {
-		ResultActions resultActions = mvc
-				.perform(
-						get("/member/profile")
-							.with(user("user4").password("1234").roles("user"))
-				)
-				.andDo(print());
-
-		resultActions
-				.andExpect(status().is2xxSuccessful())
-				.andExpect(handler().handlerType(MemberController.class))
-				.andExpect(handler().methodName("showProfile"))
-				.andExpect(content().string(containsString("user4@test.com")));
-	}
-
+	
 	@Test
 	@DisplayName("회원가입")
 	void t5() throws Exception {
