@@ -1,10 +1,13 @@
 package com.ll.exam.fileUpload.util;
 
+import antlr.BaseAST;
 import org.apache.tika.Tika;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -12,6 +15,16 @@ import java.util.Date;
 import java.util.Optional;
 
 public class Util {
+    public static class url {
+        public static String encode(String str) {
+            try {
+                return URLEncoder.encode(str, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                return str;
+            }
+        }
+    }
+
     public static class date {
         public static String getCurrentDateFormatted(String pattern) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);

@@ -20,4 +20,8 @@ public class ArticleService {
         articleRepository.save(article);
         return article;
     }
+
+    public Article getArticleById(Long id) {
+        return articleRepository.findById(id).orElse(null);
+    }
 }
