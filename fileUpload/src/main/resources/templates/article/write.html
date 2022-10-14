@@ -1,0 +1,71 @@
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org"
+      layout:decorate="~{layout/layout.html}"
+>
+<head>
+    <title>글쓰기</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h1>회원가입</h1>
+
+        <script>
+        function WriteForm__submit(form) {
+            form.username.value = form.username.value.trim();
+
+            if(form.username.value.length == 0) {
+                alert('아이디를 입력해주세요.');
+                form.username.focus();
+                return;
+        }
+
+        form.password.value = form.password.value.trim();
+
+        if(form.password.value.length == 0) {
+            alert('비밀번호를 입력해주세요.');
+            form.password.focus();
+            return;
+        }
+
+        form.email.value = form.email.value.trim();
+
+        if(form.email.value.length == 0) {
+            alert('이메일을 입력해주세요.');
+            form.email.focus();
+            return;
+        }
+
+        form.submit();
+    }
+
+
+        </script>
+
+        <form th:action method="POST" th:object="${articleForm}" enctype="multipart/form-data" onsubmit="WriteForm__submit(this); return false;">
+            <div>
+                <span>제목</span>
+                <input type="text" th:field="*{subject}">
+            </div>
+            <div>
+                <span>내용</span>
+                <textarea type="content" th:field="*{content}"></textarea>
+            </div>
+            <div>
+                <span>본문 이미지</span>
+                <div>
+                    <input type="file" name="bodyImg__1" accept="image/png, image/jpeg, image/gif">
+                </div>
+                <div>
+                    <input type="file" name="bodyImg__2" accept="image/png, image/jpeg, image/gif">
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="작성">
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

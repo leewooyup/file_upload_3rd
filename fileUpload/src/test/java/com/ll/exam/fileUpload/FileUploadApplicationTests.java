@@ -87,7 +87,7 @@ class FileUploadApplicationTests {
 				.andExpect(handler().methodName("showProfile"))
 				.andExpect(content().string(containsString("user1@test.com")));
 	}
-	
+
 	@Test
 	@DisplayName("회원가입")
 	void t5() throws Exception {
