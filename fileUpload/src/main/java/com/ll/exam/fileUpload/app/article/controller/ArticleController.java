@@ -4,7 +4,9 @@ import com.ll.exam.fileUpload.app.article.controller.input.ArticleForm;
 
 import com.ll.exam.fileUpload.app.article.entity.Article;
 import com.ll.exam.fileUpload.app.article.service.ArticleService;
+
 import com.ll.exam.fileUpload.app.member.service.dto.MemberContext;
+import com.ll.exam.fileUpload.app.upload.service.GenFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.util.TypeSafeEnum;
@@ -29,6 +31,7 @@ import java.util.Map;
 @Slf4j
 public class ArticleController {
     private final ArticleService articleService;
+    private final GenFileService genFileService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
@@ -47,6 +50,8 @@ public class ArticleController {
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
         log.debug("fileMap : " + fileMap);
         Article article = articleService.write(memberContext.getId(), articleForm.getSubject(), articleForm.getContent());
+
+        genFileService.saveFiles(article, fileMap);
         return "작업중";
     }
 }
