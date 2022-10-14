@@ -5,6 +5,7 @@ import com.ll.exam.fileUpload.app.article.controller.input.ArticleForm;
 import com.ll.exam.fileUpload.app.article.entity.Article;
 import com.ll.exam.fileUpload.app.article.service.ArticleService;
 
+import com.ll.exam.fileUpload.app.base.dto.RsData;
 import com.ll.exam.fileUpload.app.member.service.dto.MemberContext;
 import com.ll.exam.fileUpload.app.upload.service.GenFileService;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,8 @@ public class ArticleController {
         log.debug("fileMap : " + fileMap);
         Article article = articleService.write(memberContext.getId(), articleForm.getSubject(), articleForm.getContent());
 
-        genFileService.saveFiles(article, fileMap);
+        RsData<Map<String, Long>> saveFilesRsData = genFileService.saveFiles(article, fileMap);
+        log.debug("saveFilesRsData: " + saveFilesRsData);
         return "작업중";
     }
 }

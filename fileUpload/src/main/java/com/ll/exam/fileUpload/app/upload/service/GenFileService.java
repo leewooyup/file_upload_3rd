@@ -1,6 +1,8 @@
 package com.ll.exam.fileUpload.app.upload.service;
 
 import com.ll.exam.fileUpload.app.article.entity.Article;
+import com.ll.exam.fileUpload.app.base.AppConfig;
+import com.ll.exam.fileUpload.app.base.dto.RsData;
 import com.ll.exam.fileUpload.app.base.entity.GenFile;
 import com.ll.exam.fileUpload.app.upload.repository.GenFileRepsoitory;
 import com.ll.exam.fileUpload.util.Util;
@@ -8,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -15,12 +20,18 @@ import java.util.Map;
 public class GenFileService {
     private final GenFileRepsoitory genFileRepsoitory;
 
-    public void saveFiles(Article article, Map<String, MultipartFile> fileMap) {
+    public RsData<Map<String, Long>> saveFiles(Article article, Map<String, MultipartFile> fileMap) {
         String relTypeCode = "article";
         long relId = article.getId();
 
+        Map<String, GenFile> genFileIds = new HashMap<>();
+
         for(String inputName : fileMap.keySet() ) {
             MultipartFile multipartFile = fileMap.get(inputName);
+
+            if(multipartFile.isEmpty()) {
+                continue;
+            }
 
             String[] inputNameBits = inputName.split("__");
 
@@ -49,8 +60,20 @@ public class GenFileService {
                     .originFileName(originFileName)
                     .build();
             genFileRepsoitory.save(genFile);
+
+            String filePath = AppConfig.GET_FILE_DIR_PATH + "/" + fileDir + "/" + genFile.getFileName();
+            File file = new File(filePath);
+
+            file.getParentFile().mkdirs();
+
+            try {
+                multipartFile.transferTo(file);
+            } catch(IOException e) {
+                throw new RuntimeException(e);
+            }
+            genFileIds.put(inputName, genFile);
         }
 
-
+        return new RsData("S-1", "파일을 업로드했습니다.", genFileIds);
     }
 }
